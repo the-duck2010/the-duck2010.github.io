@@ -1,9 +1,47 @@
-<!doctype HTML>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Hi? I guess</title>
-  </head>
-  <body>
-      <h1>Hi? I guess</h1>
-  </body>
+<head>
+  <title>Your GitHub Repositories</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your GitHub Repositories</h1>
+  <ul id="repo-list"></ul>
+
+  <script>
+    const username = 'your-github-username'; // replace with your GitHub username
+    const repoList = document.getElementById('repo-list');
+
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(repo => {
+          const repoHTML = `
+            <li>
+              <a href="${repo.html_url}">${repo.name}</a>
+              <p>${repo.description}</p>
+            </li>
+          `;
+          repoList.innerHTML += repoHTML;
+        });
+      })
+      .catch(error => console.error(error));
+  </script>
+</body>
 </html>
